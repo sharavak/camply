@@ -1,0 +1,82 @@
+<% layout('/layouts/boilerplate') %>
+<style>
+	.card-img-top {
+		height: 200px;
+		object-fit: cover;
+	}
+	#view {
+		transition: all 0.3s ease-in-out;
+	}
+	.card .card-body {
+		color: #000;
+	}
+
+	.card {
+		transition: all 0.3s ease-in-out;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.card:hover {
+		transform: translateY(-10px);
+		box-shadow: 0 12px 20px rgba(67, 62, 62, 0.2);
+	}
+	#view:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	}
+	.card-link {
+		text-decoration: none;
+		color: inherit;
+	}
+	.card-link:hover {
+		color: #000;
+	}
+</style>
+<div class="container mt-4">
+	<h3>Search Results</h3>
+	<div class="row">
+		<% if (campgrounds.length > 0) { %> <% campgrounds.forEach(campground => {
+		%>
+		<div class="col-12 col-md-6 col-lg-4 mb-4">
+			<a
+				href="/campgrounds/<%= campground._id %>"
+				class="card-link"
+				style="text-decoration: none"
+			>
+				<div class="card">
+					<img
+						src="<%= campground.images[0].url %>"
+						class="card-img-top img-fluid"
+						alt="Campground Image"
+						style="height: 200px; object-fit: cover"
+					/>
+					<div class="card-body">
+						<h5 class="card-title"><%= campground.title %></h5>
+						<p class="card-text">
+							<%= campground.description.substring(0,25) %>
+						</p>
+						<p class="card-text">
+							<strong>Location:</strong> <%= campground.location %>
+						</p>
+						<p class="card-text">
+							<strong>Price:</strong> $<%= campground.price %>
+						</p>
+						<div class="d-flex justify-content-center">
+							<a
+								href="/campgrounds/<%= campground._id %>"
+								class="btn btn-primary"
+								id="view"
+								>View Details</a
+							>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<% }) %> <% } else { %>
+		<div class="col-md-12">
+			<p>No campgrounds found based on your search 🏕️.</p>
+		</div>
+		<% } %>
+	</div>
+</div>

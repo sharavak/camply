@@ -1,0 +1,78 @@
+<% layout('/layouts/boilerplate') %>
+
+    <!-- It's a matter of personal preference, but the object would be different in the end; with the campground[property]
+    approach, the properties would be found in the req.body.campground object, that one could pass directly in one go,
+    without needing to create each property in the route with the other approach, like this example:
+
+    var name = req.body.name;
+    var image = req.body.image;
+    var desc = req.body.description;
+    var newCampground = {name: name, image: image, description: desc}
+    However, although this needed some years ago, now, with spread, we no longer need to use the long way, so, as I
+    mentioned, both options are fine nowadays. -->
+
+    <!--Styling The New Form-->
+    <!-- Client-Side Form Validations -->
+    <div class="row mt-0">
+        <h1 class="text-center text-white fs-2">New Campground</h1>
+        <div class="col-md-6 offset-md-3 mt-0">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/campgrounds" method="post" novalidate class="validated-form"
+                        enctype="multipart/form-data" id="forms">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" name="campground[title]" id="title" required>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="location">Location</label>
+                            <input class="form-control" type="text" name="campground[location]" id="location" required>
+                            <!-- {"campground":{"title":"d","location":"f"}} -->
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+
+                        <!-- <div class="mb-3">
+                    <label for="image" class="form-label">Image URL</label>
+                    <input type="text" class="form-control" name="campground[image]" id="image" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    </div> -->
+                        <!-- <input type="file" name="image" id="" multiple>for mutliple files uploading -->
+                        <div class="mb-3">
+                            <label for="images" class="form-label">Choose images ( Max 7 Images are needed)</label>
+                            <input class="form-control" type="file" id="images" multiple name="image"> 
+                            <div class="check" style="display: none;">Images are needed</div>
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Campground Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="price-label">₹</span>
+                                <input type="text" name="campground[price]" id="price" class="form-control"
+                                    placeholder="0.00" aria-describedby="price-label" required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" name="campground[description]" id="description"
+                                required></textarea>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <input type="text" class="d-none" name="campground[date]" <%const a= new Date %> value="<%= a.toDateString().slice(4) %>">
+
+                        <div class="mb-3"> <button class="btn btn-success">Add Campground</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<style>
+    body{
+        background-image:  linear-gradient(rgba(0,0,0,0.9),rgba(218, 218, 218, 0.021)),url("https://images.unsplash.com/photo-1571687949921-1306bfb24b72?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1887&q=80");
+        background-position:center;
+        background-size: cover;}
+</style>
+<script src="/javascripts/customValidator.js"></script>

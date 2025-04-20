@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate') %>
+<div class="container d-flex justify-content-center align-items-center">
+	<div class="row">
+		<div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+			<div class="card shadow">
+				<img
+					src="https://img.freepik.com/free-vector/camping-composition-with-two-tents-fire-cool-box-with-trees-night-sky-cartoon_1284-54942.jpg?t=st=1744909798~exp=1744913398~hmac=fe2f0192a61bf0923e91936accb11cb8c4e9063edb12180eb5098de6632f110e&w=1380"
+					alt=""
+					class="card-img-top"
+					loading="lazy"
+				/>
+				<div class="card-body">
+					<h5 class="card-title">Register</h5>
+					<form
+						action="/register"
+						class="validated-form"
+						novalidate
+						method="post"
+					>
+						<div class="mb-3">
+							<label class="form-label" for="username">Username</label>
+							<input
+								class="form-control"
+								type="text"
+								name="username"
+								id="username"
+								required
+								autofocus
+							/>
+							<div class="valid-feedback">Looks good!</div>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="email">Email</label>
+							<input
+								class="form-control"
+								type="email"
+								name="email"
+								id="email"
+								required
+							/>
+							<div class="valid-feedback">Looks good!</div>
+						</div>
+						<div class="mb-3">
+							<label class="form-label" for="password">Password</label>
+							<input
+								class="form-control"
+								type="password"
+								name="password"
+								id="password"
+								required
+							/>
+							<div class="valid-feedback">Looks good!</div>
+						</div>
+						<div class="d-grid">
+							<button class="btn btn-success">Register</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

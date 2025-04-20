@@ -1,0 +1,326 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="row">
+	<h1 class="text-center">Edit Campground</h1>
+	<div class="col-md-6 offset-md-3">
+		<form
+			action="/campgrounds/<%= campground._id %>?_method=PUT"
+			method="POST"
+			enctype="multipart/form-data"
+			class="validated-form"
+			id="forms"
+			novalidate
+		>
+			<div class="mb-3">
+				<label for="title" class="form-label">Title</label>
+				<input
+					type="text"
+					class="form-control"
+					name="campground[title]"
+					id="title"
+					value="<%= campground.title %>"
+				/>
+				<div class="valid-feedback">Looks good!</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="location">Location</label>
+				<input
+					class="form-control"
+					type="text"
+					name="campground[location]"
+					id="location"
+					value="<%= campground.location %>"
+				/>
+				<div class="valid-feedback">Looks good!</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="images" class="form-label">Add Images</label>
+				<div
+					id="dropzone"
+					class="border border-secondary p-4 rounded text-center"
+					style="cursor: pointer"
+				>
+					<i class="fas fa-upload fa-2x text-muted"></i>
+					<p class="text-muted">
+						Drag & drop or click to upload multiple images
+					</p>
+					<input
+						type="file"
+						name="image"
+						id="images"
+						class="d-none"
+						multiple
+						accept="image/*"
+					/>
+				</div>
+				<div id="previewContainer" class="d-flex flex-wrap mt-3 gap-3"></div>
+			</div>
+
+			<div class="mb-3">
+				<label for="price" class="form-label">Campground Price</label>
+				<div class="input-group">
+					<span class="input-group-text" id="price-label">$</span>
+					<input
+						type="text"
+						name="campground[price]"
+						id="price"
+						class="form-control"
+						placeholder="0.00"
+						aria-describedby="price-label"
+						value="<%= campground.price %>"
+					/>
+					<div class="valid-feedback">Looks good!</div>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="description" class="form-label">Description</label>
+				<textarea
+					class="form-control"
+					name="campground[description]"
+					id="description"
+				>
+<%= campground.description %></textarea
+				>
+				<div class="valid-feedback">Looks good!</div>
+			</div>
+			<div class="d-flex justify-content-center mt-3">
+				<button
+					type="button"
+					class="btn btn-primary bg-gradient mb-2"
+					data-bs-toggle="modal"
+					data-bs-target="#imageModal"
+				>
+					View & Edit Images
+				</button>
+			</div>
+
+			<div
+				class="modal fade"
+				id="imageModal"
+				tabindex="-1"
+				aria-labelledby="imageModalLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog modal-lg modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="imageModalLabel">Existing Images</h5>
+							<button
+								type="button"
+								class="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"
+							></button>
+						</div>
+
+						<div class="modal-body">
+							<div class="d-flex justify-content-end mb-2">
+								<button
+									type="button"
+									class="btn btn-outline-danger btn-sm"
+									id="selectAllBtn"
+								>
+									Select All
+								</button>
+							</div>
+
+							<div class="container">
+								<div class="row g-3">
+									<% campground.images.forEach((img, i) => { %>
+									<div class="col-6 col-sm-4 col-md-3 text-center">
+										<div class="card h-100 shadow-sm">
+											<img
+												src="<%= img.url %>"
+												alt="Image"
+												class="card-img-top img-fluid"
+												style="height: 150px; object-fit: cover"
+											/>
+
+											<div class="card-body p-2">
+												<div class="d-flex justify-content-center">
+													<input
+														class="form-check-input"
+														type="checkbox"
+														name="deletedImages[]"
+														id="del-<%= i %>"
+														value="<%= img.filename %>"
+													/>
+													<label
+														class="form-check-label ms-1 small"
+														for="del-<%= i %>"
+													>
+														Delete
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<% }) %>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal"
+							>
+								Save Changes
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="mb-3 d-none">
+				<% let a = new Date(); %>
+				<input type="text" value="<%= a.toTimeString() %>" name="editDate" />
+			</div>
+
+			<div class="mb-3">
+				<button class="btn btn-info">Update Campground</button>
+			</div>
+		</form>
+		<a href="/campgrounds/<%= campground._id %>" class="text-success"
+			>Back To Campground</a
+		>
+	</div>
+</div>
+<!-- <div
+	id="updatingOverlay"
+	style="
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 9999;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		font-size: 2rem;
+	"
+>
+	<div class="text-center text-white">
+		<div class="spinner-border text-success" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+		<p class="mt-2">Updating campground, please wait...</p>
+	</div>
+</div> -->
+<script>
+	const dropzone = document.getElementById("dropzone");
+	const fileInput = document.getElementById("images");
+	const previewContainer = document.getElementById("previewContainer");
+	let selectedFiles = [];
+	document.addEventListener("DOMContentLoaded", function () {
+		const selectAllBtn = document.getElementById("selectAllBtn");
+		let isAllSelected = false;
+
+		selectAllBtn.addEventListener("click", function () {
+			const checkboxes = document.querySelectorAll(
+				'input[name="deletedImages[]"]'
+			);
+			checkboxes.forEach((cb) => (cb.checked = !isAllSelected));
+			isAllSelected = !isAllSelected;
+			selectAllBtn.textContent = isAllSelected ? "Deselect All" : "Select All";
+		});
+	});
+	dropzone.addEventListener("click", () => fileInput.click());
+
+	dropzone.addEventListener("dragover", (e) => {
+		e.preventDefault();
+		dropzone.classList.add("bg-light");
+	});
+
+	dropzone.addEventListener("dragleave", () => {
+		dropzone.classList.remove("bg-light");
+	});
+
+	dropzone.addEventListener("drop", (e) => {
+		e.preventDefault();
+		dropzone.classList.remove("bg-light");
+		handleFiles(e.dataTransfer.files);
+	});
+
+	fileInput.addEventListener("change", () => handleFiles(fileInput.files));
+
+	function handleFiles(files) {
+		for (const file of files) {
+			if (!file.type.startsWith("image/")) continue;
+
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				const imgWrapper = document.createElement("div");
+				imgWrapper.classList.add("img-wrapper");
+
+				const img = document.createElement("img");
+				img.src = e.target.result;
+				img.classList.add("preview-img");
+
+				const removeBtn = document.createElement("button");
+				removeBtn.innerHTML = "&times;";
+				removeBtn.addEventListener("click", () => {
+					previewContainer.removeChild(imgWrapper);
+					selectedFiles = selectedFiles.filter((f) => f !== file);
+					updateInputFiles();
+				});
+
+				imgWrapper.appendChild(img);
+				imgWrapper.appendChild(removeBtn);
+				previewContainer.appendChild(imgWrapper);
+			};
+			reader.readAsDataURL(file);
+			selectedFiles.push(file);
+		}
+		updateInputFiles();
+	}
+
+	function updateInputFiles() {
+		const dataTransfer = new DataTransfer();
+		selectedFiles.forEach((file) => dataTransfer.items.add(file));
+		fileInput.files = dataTransfer.files;
+	}
+</script>
+
+<style>
+	.preview-img {
+		height: 100px;
+		width: 100px;
+		object-fit: cover;
+		border-radius: 8px;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.img-wrapper {
+		position: relative;
+		display: inline-block;
+	}
+
+	.img-wrapper button {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		border: none;
+		background: #dc3545;
+		color: white;
+		border-radius: 50%;
+		font-size: 12px;
+		width: 20px;
+		height: 20px;
+		padding: 0;
+		line-height: 1;
+	}
+
+	.img-wrapper button:hover {
+		background: #c82333;
+	}
+</style>
+
+<script src="/javascripts/customValidator.js"></script>

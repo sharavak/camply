@@ -1,0 +1,67 @@
+<% layout('/layouts/boilerplate') %>
+<style>
+	.gradient-card {
+		position: relative;
+		overflow: hidden;
+		transition: transform 0.3s ease;
+	}
+
+	.gradient-card:hover {
+		transform: scale(1.05);
+	}
+
+	.gradient-card img {
+		transition: transform 0.3s ease;
+	}
+
+	.gradient-card:hover img {
+		transform: scale(1.1);
+	}
+
+	.gradient-card .card-body {
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		right: 10px;
+		background: rgba(11, 10, 10, 0.5);
+		color: white;
+		transition: background 0.3s ease;
+	}
+	s .gradient-card:hover .card-body {
+		background: rgba(0, 0, 0, 0.7);
+	}
+</style>
+<div class="container mt-4">
+	<h3>Top 10 Trending Campgrounds</h3>
+	<div class="row">
+		<% if (campgrounds.length > 0) { %> <% campgrounds.forEach(campground => {
+		%>
+		<div class="col-12 col-md-6 col-lg-4 mb-4">
+			<div class="card gradient-card">
+				<img
+					src="<%= campground.images[0].url %>"
+					class="card-img-top"
+					alt="Campground Image"
+					style="height: 200px; object-fit: cover"
+				/>
+				<div class="card-body">
+					<h5 class="card-title"><%= campground.title %></h5>
+					<p class="card-text">
+						<%= campground.description.substring(0,25)%> ...
+					</p>
+					<p class="card-text">
+						<strong>Likes:</strong> <%= campground.likes.length %>
+					</p>
+					<a href="/campgrounds/<%= campground._id %>" class="btn btn-primary"
+						>View Details</a
+					>
+				</div>
+			</div>
+		</div>
+		<% }); %> <% } else { %>
+		<div class="col-md-12">
+			<p>No trending campgrounds available.</p>
+		</div>
+		<% } %>
+	</div>
+</div>

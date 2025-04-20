@@ -1,0 +1,174 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="page-content page-container" id="page-content">
+	<div class="padding">
+		<div class="row d-flex justify-content-center align-items-center">
+			<div class="col-md-5">
+				<div class="card shadow-sm border-0 rounded-4">
+					<div class="card-body text-center">
+						<div>
+							<img
+								src="<%= user.profilePic %>"
+								class="img-lg rounded-circle mb-4"
+								alt="profile image"
+							/>
+							<h4><%= user.username %></h4>
+						</div>
+
+						<p class="mt-2 card-text"><%= user.about %></p>
+
+						<form
+							action="/profile/<%= user.username %>/follower?username=<%= currUserProf.username %>"
+							method="post"
+							id="follower"
+						>
+							<% if (currUserProf && user.username !== currUserProf.username) {
+							%>
+							<button class="btn btn-outline-info mb-2">
+								<i class="fa-solid fa-user-plus me-1"></i>Follow
+							</button>
+							<% } else if (currUser) { %>
+							<button class="btn btn-info mb-2">
+								<i class="fa-solid fa-user-check me-1"></i>Following
+							</button>
+							<% } %>
+						</form>
+
+						<% if (currUserProf && user.username === currUserProf.username) { %>
+						<button
+							type="button"
+							class="btn btn-primary mb-1"
+							data-bs-toggle="modal"
+							data-bs-target="#exampleModalScrollable"
+						>
+							<i class="fa-solid fa-pen me-1"></i>Edit
+						</button>
+						<% } %>
+
+						<div class="border-top pt-3">
+							<div class="row">
+								<div class="col-4">
+									<h6><%= user.totalPosts %></h6>
+									<p>
+										<i class="fa-solid fa-pen-nib me-1 text-primary"></i>Post
+									</p>
+								</div>
+								<div class="col-4">
+									<h6 id="noOfFol"><%= user.followers.length %></h6>
+									<p>
+										<i class="fa-solid fa-users me-1 text-info"></i>Followers
+									</p>
+								</div>
+								<div class="col-4">
+									<h6><%= user.totalLikes %></h6>
+									<p>
+										<i class="fa-solid fa-thumbs-up me-1 text-success"></i>Likes
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div
+	class="modal fade"
+	id="exampleModalScrollable"
+	aria-labelledby="exampleModalScrollableTitle"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-modal="true"
+	role="dialog"
+>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Edit Profile</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+
+			<div class="modal-body">
+				<form
+					class="row"
+					action="/profile/<%= currUserProf.username %>"
+					method="post"
+					enctype="multipart/form-data"
+					id="profileForm"
+				>
+					<div class="mb-3 col-12">
+						<label for="profilePic" class="form-label"
+							>Upload your profile image</label
+						>
+						<input
+							class="form-control"
+							type="file"
+							id="profilePic"
+							name="profilePic"
+							accept=".jpg, .jpeg, .png"
+						/>
+					</div>
+					<div class="form-floating mb-3 col-12">
+						<textarea
+							class="form-control"
+							placeholder="About"
+							id="floatingTextarea2"
+							style="height: 100px"
+							name="about"
+						>
+<%= currUserProf.about %></textarea
+						>
+						<label for="floatingTextarea2">About</label>
+					</div>
+					<div class="col-12 text-center">
+						<button type="submit" class="btn btn-info">Update</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	const form = document.querySelector("#follower");
+	const profileForm = document.querySelector("#profileForm");
+	profileForm.addEventListener("submit", function () {
+		showOverLay("Updating your Profile...");
+	});
+	const noOfFol = document.querySelector("#noOfFol");
+	form.addEventListener("submit", async function (e) {
+		e.preventDefault();
+		let res = await fetch(form.action, {
+			method: "post",
+			body: JSON.stringify({
+				username: form.action.split("=")[1],
+				follow: this.action.split("profile/")[1].split("/")[0],
+			}),
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+		});
+		res = await res.json();
+		console.log(res, "fdsf");
+		if ("followers" in res) {
+			noOfFol.textContent = res["followers"];
+			form.children[0].textContent = res["del"] ? "Follow" : "Following";
+		} else {
+			form.children[0].textContent = "Follow";
+		}
+	});
+</script>

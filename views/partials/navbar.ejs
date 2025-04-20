@@ -1,0 +1,88 @@
+    <style>
+      .navbar-light .navbar-toggler-icon {
+        filter: invert(1);
+      }
+  
+      .navbar-nav .nav-link {
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        align-items: center;
+      }
+  
+      .navbar-nav .nav-link i {
+        color: #bbb;
+        transition: color 0.3s;
+      }
+  
+      .navbar-nav .nav-link:hover i,
+      .navbar-nav .nav-link:hover {
+        color: #00ffae !important;
+        transform: translateY(-1px);
+      }
+  
+      .navbar-nav .nav-link.active i {
+        color: #00ffae;
+      }
+  
+      .navbar-brand img {
+        margin-right: 5px;
+      }
+  
+      .btn-outline-success:hover {
+        background-color: #00c67c;
+        border-color: #00c67c;
+      }
+  
+      .btn-outline-success i {
+        color: white;
+      }
+    </style>
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+    <div class="container-fluid align-items-center">
+  
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="https://cdn-icons-png.flaticon.com/32/5721/5721744.png" alt="logo">
+        Camply
+      </a>
+  
+      <form class="d-flex align-items-center ms-auto me-2 d-lg-none" style="max-width: 180px;" role="search" action="/campgrounds/search/" method="get">
+        <input class="form-control form-control-sm me-1" type="search" placeholder="Search" aria-label="Search" name="query">
+        <button class="btn btn-outline-success btn-sm" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+  
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible Content -->
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/"><i class="fa-solid fa-house me-1"></i>Home</a>
+          <a class="nav-link" href="/campgrounds"><i class="fa-solid fa-campground me-1"></i>Campgrounds</a>
+          <a class="nav-link" href="/campgrounds/new"><i class="fa-solid fa-plus me-1"></i>New</a>
+          <a class="nav-link" href="/campgrounds/trending"><i class="fa-solid fa-fire me-1"></i>Trending</a>
+        </div>
+  
+        <div class="navbar-nav ms-auto">
+          <!-- Desktop-only Search -->
+          <form class="d-flex align-items-center me-3 d-none d-lg-flex" role="search" action="/campgrounds/search/" method="get">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
+            <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+  
+          <% if (!currentUser) { %>
+            <a href="/login" class="nav-link"><i class="fa-solid fa-right-to-bracket me-1"></i>Login</a>
+            <a href="/register" class="nav-link"><i class="fa-solid fa-user-plus me-1"></i>Register</a>
+          <% } else { %>
+            <a href="/campgrounds/fav" class="nav-link"><i class="fa-solid fa-bookmark me-1"></i>Bookmarks</a>
+            <a href="/profile/<%= currentUser.username %>" class="nav-link"><i class="fa-solid fa-user me-1"></i>Profile</a>
+            <a href="/logout" class="nav-link"><i class="fa-solid fa-right-from-bracket me-1"></i>Logout</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
