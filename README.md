@@ -64,3 +64,7 @@ CLOUDINARY_API_SECRET=yourApiSecret
 ```
 ## Running the App
 ```npm start```
+
+## 🤝 Credits
+[Colt Steele](https://www.udemy.com/user/coltsteele/) - For his The Web Developer Bootcamp
+
