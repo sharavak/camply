@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema; 
+const Schema = mongoose.Schema;
 const Review = require("./review");
 const User = require("./user");
 
@@ -68,14 +68,13 @@ const CampgroundSchema = new Schema(
 );
 
 CampgroundSchema.post("findOneAndDelete", async function (doc) {
-	console.log("DELETED", doc);
 	if (doc) {
 		await Review.deleteMany({
 			_id: {
 				$in: doc.reviews,
 			},
 		});
-		await User.findByIdAndUpdate(doc.author, {
+		const user = await User.findByIdAndUpdate(doc.author, {
 			$inc: {
 				totalPosts: -1,
 				totalLikes: -doc.likes.length,

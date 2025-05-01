@@ -127,6 +127,7 @@ app.use(
 				"https://res.cloudinary.com/dvc8kivbh/",
 				"https://images.unsplash.com/",
 				"https://cdn-icons-png.flaticon.com/",
+				"https://img.freepik.com/",
 			],
 			fontSrc: ["'self'", ...fontSrcUrls],
 			mediaSrc: ["'self'", ...mediaSrcUrls],

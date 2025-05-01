@@ -24,10 +24,10 @@ router.route("/verify").get(users.changePass).post(users.postChangePass);
 
 router
 	.route("/profile/:username")
-	.get(users.renderProfile)
-	.post(uploadProfilePic.single("profilePic"), users.updateProfile);
+	.get(catchAsync(users.renderProfile))
+	.post(uploadProfilePic.single("profilePic"), catchAsync(users.updateProfile));
 
-router.route("/profile/:username/follower").post(users.updateFollowers);
+router.route("/profile/:username/follower").post(catchAsync(users.updateFollowers));
 router
 	.route("/login")
 	.get(users.renderLogin)

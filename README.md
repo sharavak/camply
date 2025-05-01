@@ -66,5 +66,5 @@ CLOUDINARY_API_SECRET=yourApiSecret
 ```npm start```
 
 ## 🤝 Credits
-[Colt Steele](https://www.udemy.com/course/the-web-developer-bootcamp) - For his Web Developer Bootcamp cource
+[Colt Steele](https://www.udemy.com/course/the-web-developer-bootcamp) - For his Web Developer Bootcamp course
 

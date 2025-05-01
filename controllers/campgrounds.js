@@ -1,4 +1,3 @@
-
 const {cloudinary} = require("../cloudinary");
 const Campground = require("../models/campground");
 const User = require("../models/user");
@@ -6,6 +5,7 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({accessToken: mapBoxToken});
 module.exports.index = async (req, res) => {
+	console.log(req.ip);
 	let campgrounds,
 		length,
 		next = 0,
@@ -50,7 +50,7 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
-    let geoData;
+	let geoData;
 	if (!req.body.campground)
 		throw new ExpressError("Invalid Campground Date", 400); // for ajax request or any api
 	try {
@@ -76,7 +76,7 @@ module.exports.createCampground = async (req, res, next) => {
 	campground.author = req.user._id;
 	const user = await User.findById(req.user._id);
 	user.totalPosts++;
-	user.totalPosts = Math.max(user.totalPosts, 0);
+	//user.totalPosts = Math.max(user.totalPosts, 0);
 	await user.save();
 	await campground.save();
 	req.flash("success", "Successfully made a new campground");
@@ -214,7 +214,6 @@ module.exports.deleteCampground = async (req, res) => {
 	const {id} = req.params;
 	const campground = await Campground.findByIdAndDelete(id);
 	const user = await User.findById(campground.author);
-	user.totalPosts--;
 	await user.save();
 	req.flash("success", "Successfully deleted campground");
 	res.redirect("/campgrounds");

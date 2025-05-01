@@ -212,7 +212,7 @@
     reviewForm.addEventListener("submit", () => {
 	    showOverLay("Posting your Review, please wait...");
         }); 
-	const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+	const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
 	const campground =<%-JSON.stringify(campground) %> // we will get an because of id is not in quotes so we can convert into Json
 </script>
 <script src="/javascripts/showPageMap.js"></script>
