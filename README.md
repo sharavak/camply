@@ -50,7 +50,7 @@ Camply is a full-stack campground platform built using **Node.js**, **Express**,
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/sharavanakumarrn/camply.git
+git clone https://github.com/sharavak/camply
 cd camply
 npm install
 ```
